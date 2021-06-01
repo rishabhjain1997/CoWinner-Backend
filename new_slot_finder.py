@@ -88,8 +88,22 @@ def create_session_message(center_id, session_id, now_response):
     centers = now_response['centers']
     center = list(filter(lambda center: center['center_id'] == int(center_id), centers))[0]
     session = list(filter(lambda session: session['session_id'] == session_id,center['sessions']))[0]
-    session_date = datetime.strptime(session['date'],'%d-%m-%Y').strftime('%A, %b %d')
-    message = f"Vaccination centers for {'18-44' if session['min_age_limit'] == 45 else '45+'} age group:\n{center['name'].upper()} ({center['block_name']})-Pin: {center['pincode']}\nVaccine: {session['vaccine']}\nCost:{center['fee_type']}\nTotal *{session['available_capacity']} slots* are available on {session_date}\n(Dose 1: {session['available_capacity_dose1']}, Dose 2: {session['available_capacity_dose2']})"
+    session_date = datetime.strptime(session['date'],'%d-%m-%Y').strftime('%d %B')
+    age_category = '45 plus' if session['min_age_limit'] == 45 else '18-45 ages'
+    #print(session['min_age_limit'])
+    message = "\U0001F4CD"+f" Pincode *{center['pincode']}*\n"+\
+    "\U0001F3E5"+f" {center['name'].upper()}\n"+\
+    "\U0001F5D3"+f" {session_date}\n"+\
+    "\U0001F489"+f" {session['vaccine']}\n"+\
+    "\U0001F4B0"+f" {center['fee_type']}\n"+\
+    "\U0001F382"+f" {age_category}\n"+\
+    "\U000025B6"+f" Dose 1: {session['available_capacity_dose1']} slots\n"+\
+    "\U000023E9"+f" Dose 2: {session['available_capacity_dose2']} slots\n"+\
+    "CoWin: selfregistration.cowin.gov.in\n"+\
+    "-----------"+\
+    "-----------"+\
+    "-----------"+\
+    "-----------\n"
     return(message)
 
 
