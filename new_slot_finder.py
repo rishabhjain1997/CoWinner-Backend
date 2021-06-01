@@ -46,7 +46,7 @@ def calculate_session_updates(dist_id, now_response):
     except FileNotFoundError as e:
         with open(prev_filepath,'w') as file:
             json.dump(now_response, file)	                 #old_data.json.write(current_response)
-            return 
+            return [] 
 
     #since we have stored the prev run's data in old_response, now the current run's data should be written to old json
     with open(prev_filepath,'w') as file:
