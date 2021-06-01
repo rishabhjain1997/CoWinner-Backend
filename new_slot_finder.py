@@ -89,7 +89,7 @@ def create_session_message(center_id, session_id, now_response):
     center = list(filter(lambda center: center['center_id'] == int(center_id), centers))[0]
     session = list(filter(lambda session: session['session_id'] == session_id,center['sessions']))[0]
     session_date = datetime.strptime(session['date'],'%d-%m-%Y').strftime('%d %B')
-    age_category = '45 plus' if session['min_age_limit'] == 45 else '18-45 ages'
+    age_category = '45 plus ages' if session['min_age_limit'] == 45 else '18-45 ages'
     #print(session['min_age_limit'])
     message = "\U0001F4CD"+f" Pincode *{center['pincode']}*\n"+\
     "\U0001F3E5"+f" {center['name'].upper()}\n"+\
