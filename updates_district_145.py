@@ -2,13 +2,13 @@
 # coding: utf-8
 
 # In[1]:
-
+import sys
 
 from new_slot_finder import calculate_session_updates, get_current_data, create_session_message
 from notification import create_user_list, send_notifications
 
-# Assume district is 145
-dist_id = 145
+# We pass dist_id as command line argument
+dist_id = int(sys.argv[1])
 data = get_current_data(dist_id)
 session_updates = calculate_session_updates(dist_id, data)
 messages = []
