@@ -6,7 +6,6 @@ from notification import create_user_list, send_notifications
 dist_id = int(sys.argv[1])
 data = get_current_data(dist_id)
 session_updates = calculate_session_updates(dist_id, data)
-# remove_45_updates(session_updates, data)
 messages = []
 for session, center in session_updates:
     message = create_session_message(center, session, data)

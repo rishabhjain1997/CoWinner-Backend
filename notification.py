@@ -9,7 +9,7 @@ def create_user_list(path):
                                     })
        ref = db.reference(path)
        
-       return list(map(lambda phoneNumber: '91'+phoneNumber,ref.get().keys()))
+       return list(map(lambda phoneNumber: phoneNumber.lstrip('+'),ref.get().keys()))
 
 
 def send_notifications(user_list, message):
