@@ -1,7 +1,11 @@
+import firebase_admin
+from firebase_admin import db
+from firebase_admin import credentials
+import wati_auth
+import requests
+
+
 def create_user_list(path):
-    import firebase_admin
-    from firebase_admin import db
-    from firebase_admin import credentials
     cred = credentials.Certificate("cowinner-20464-firebase-adminsdk-ftwj6-deb6dfd475.json")
     firebase_admin.initialize_app(cred,
                                   {
@@ -13,8 +17,6 @@ def create_user_list(path):
 
 
 def send_notifications(user_list, message):
-    import wati_auth
-    import requests
     headers = {
         'accept': '*/*',
         'Authorization': wati_auth.access_token,
