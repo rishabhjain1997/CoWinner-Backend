@@ -17,8 +17,13 @@ class DayData:
         indian_date = self.date  # fetch today's date
         query_params = {"district_id": str(self.district_id),
                         "date": indian_date}  # dynamically pass district id cur batchdate
+        headers = {
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 "
+                          "Safari/537.36"}
+
         now_request = requests.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict",
-                                   params=query_params)  # API Call
+                                   params=query_params, headers=headers)  # API Call
+
         now_response = now_request.json()  # dictionary of contents for batchdate
         return now_response
 
