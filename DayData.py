@@ -67,7 +67,7 @@ class DayData:
         try:
             with open(prev_filepath, "r") as file:
                 prev_response = json.loads(file.read())
-        except FileNotFoundError as e:
+        except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
             with open(prev_filepath, 'w') as file:
                 json.dump(now_response, file)  # old_data.json.write(current_response)
                 return []
@@ -116,6 +116,8 @@ class DayData:
 
         for index in session_indices:
             center = sessions[index]
+            if self.appointment_with_no_slots(center) or not self.is_appointment_under_45(center):
+                continue
             session_date = datetime.strptime(center['date'], '%d-%m-%Y').strftime('%d %B')
             age_category = '45 plus ages' if center['min_age_limit'] == 45 else '18-45 ages'
             fee = "Free" if center['fee'] == "0" else center['fee']
