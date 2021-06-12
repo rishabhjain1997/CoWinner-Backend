@@ -112,14 +112,14 @@ class DayData:
         update_capacities1 = {k: now_available_capacity1[k] - prev_available_capacity1[k] for k in
                               (set(now_available_capacity1).intersection(set(prev_available_capacity1)))}
         for key, value in update_capacities1.items():
-            if value > 0:
+            if value > 9:
                 new_sessions_update.update({key: now_dict[key]})
 
         # filtering sessions which have an INCREASE in available capacity for dose 2
         update_capacities2 = {k: now_available_capacity2[k] - prev_available_capacity2[k] for k in
                               (set(now_available_capacity2).intersection(set(prev_available_capacity2)))}
         for key, value in update_capacities2.items():
-            if value > 0:
+            if value > 9:
                 new_sessions_update.update({key: now_dict[key]})
         print(new_sessions_update)
         updated_session_indices = list(new_sessions_update.values())
