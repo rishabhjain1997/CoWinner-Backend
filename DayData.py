@@ -83,17 +83,45 @@ class DayData:
 
         now_dict = {}
         prev_dict = {}
+        now_available_capacity1 = {}
+        prev_available_capacity1 = {}
+        now_available_capacity2 = {}
+        prev_available_capacity2 = {}
 
         # generating {session id:session index} mappings for current run and prev run data
         for session_index in range(0, len(sessions_now)):
             now_dict.update({sessions_now[session_index]["session_id"]: session_index})
+            # Available capacity for all sessions
+            now_available_capacity1.update(
+                {sessions_now[session_index]["session_id"]: sessions_now[session_index]['available_capacity_dose1']})
+            now_available_capacity2.update(
+                {sessions_now[session_index]["session_id"]: sessions_now[session_index]['available_capacity_dose2']})
 
         for session_index in range(0, len(sessions_prev)):
             prev_dict.update({sessions_prev[session_index]["session_id"]: session_index})
+            # Available capacity for all sessions
+            prev_available_capacity1.update(
+                {sessions_prev[session_index]["session_id"]: sessions_prev[session_index]['available_capacity_dose1']})
+            prev_available_capacity2.update(
+                {sessions_prev[session_index]["session_id"]: sessions_prev[session_index]['available_capacity_dose2']})
 
         # filtering sessions which are unique to the current run
         new_sessions_update = {k: now_dict[k] for k in set(now_dict) - set(prev_dict)}
+        print('Previous: ', new_sessions_update)
+        # filtering sessions which have an INCREASE in available capacity for dose 1
+        update_capacities1 = {k: now_available_capacity1[k] - prev_available_capacity1[k] for k in
+                              (set(now_available_capacity1).intersection(set(prev_available_capacity1)))}
+        for key, value in update_capacities1.items():
+            if value > 0:
+                new_sessions_update.update({key: now_dict[key]})
 
+        # filtering sessions which have an INCREASE in available capacity for dose 2
+        update_capacities2 = {k: now_available_capacity2[k] - prev_available_capacity2[k] for k in
+                              (set(now_available_capacity2).intersection(set(prev_available_capacity2)))}
+        for key, value in update_capacities2.items():
+            if value > 0:
+                new_sessions_update.update({key: now_dict[key]})
+        print(new_sessions_update)
         updated_session_indices = list(new_sessions_update.values())
         return updated_session_indices
 
