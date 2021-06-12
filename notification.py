@@ -27,5 +27,8 @@ def send_notifications(user_list, message):
     for user in user_list:
         send_message_endpoint = wati_auth.base_url + '/api/v1/sendSessionMessage/' + str(user)
         response = requests.post(send_message_endpoint + '?messageText=' + message, headers=headers)
-        responses.append({user: response.json()})
+        try:
+            responses.append({user: response.json()})
+        except json.decoder.JSONDecodeError:
+            responses.append({user: 'Error Decoding JSON'})
     return responses
